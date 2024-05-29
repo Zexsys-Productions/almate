@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "682427829704",
+    "project_id": "almate-getalma",
+    "storage_bucket": "almate-getalma.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:682427829704:android:3562dd1b7b7b11fa3304fd",
+        "android_client_info": {
+          "package_name": "com.example.almate"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDjs95yX-a1PfqrHSa7JbjA1J_SpCsKTwc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

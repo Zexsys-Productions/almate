@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">almate</string>
+    <string name="home">Home</string>
+    <string name="top">Top</string>
+    <string name="fgc">FGC</string>
+    <string name="profile">Profile</string>
+</resources>
