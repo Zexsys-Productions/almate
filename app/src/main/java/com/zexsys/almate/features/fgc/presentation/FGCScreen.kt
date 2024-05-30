@@ -53,7 +53,7 @@ fun FGCScreen(
     val dashboardUiState = dashboardViewModel.dashboardUiState
 
     when (dashboardUiState) {
-        is DashboardUiState.Loading -> LoadingScreen(loadingText = "Figuring out how to do math...")
+        is DashboardUiState.Loading -> LoadingScreen(loadingText = "Figuring out how to do math")
         is DashboardUiState.Success -> {
             FGCResultScreen(
                 gradeInfoResponse = dashboardUiState.gradeInfoResponse,

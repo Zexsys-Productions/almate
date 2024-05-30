@@ -40,7 +40,7 @@ fun ProfileScreen(
     val profileUiState = profileViewModel.profileUiState
 
     when (profileUiState) {
-        is ProfileUiState.Loading -> { LoadingScreen(loadingText = "Getting your info...") }
+        is ProfileUiState.Loading -> { LoadingScreen(loadingText = "Getting your info") }
         is ProfileUiState.Success -> {
             ProfileResultScreen(
                 profileViewModel = profileViewModel,

@@ -8,10 +8,10 @@
             <InsightsFilterSettings>
               <option name="connection">
                 <ConnectionSetting>
-                  <option name="appId" value="PLACEHOLDER" />
-                  <option name="mobileSdkAppId" value="" />
-                  <option name="projectId" value="" />
-                  <option name="projectNumber" value="" />
+                  <option name="appId" value="com.zexsys.almate" />
+                  <option name="mobileSdkAppId" value="1:682427829704:android:3562dd1b7b7b11fa3304fd" />
+                  <option name="projectId" value="almate-getalma" />
+                  <option name="projectNumber" value="682427829704" />
                 </ConnectionSetting>
               </option>
               <option name="signal" value="SIGNAL_UNSPECIFIED" />
