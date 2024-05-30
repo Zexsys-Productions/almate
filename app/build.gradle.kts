@@ -6,11 +6,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.almate"
+    namespace = "com.zexsys.almate"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.example.almate"
+        applicationId = "com.zexsys.almate"
         minSdk = 30
         targetSdk = 34
         versionCode = 1
