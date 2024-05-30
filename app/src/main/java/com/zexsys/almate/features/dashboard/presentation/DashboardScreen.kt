@@ -216,8 +216,7 @@ fun GpaCard(
 
                 LineChart(
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .height(300.dp),
+                        .fillMaxSize(),
                     lineChartData = lineChartData
                 )
 
@@ -252,8 +251,37 @@ fun SubjectCard(
             0.7f to MaterialTheme.colorScheme.surfaceContainerHigh,
             1f to Color.Green.copy(alpha = 0.1f)
         )
+        "B+" -> arrayOf(
+            0.7f to MaterialTheme.colorScheme.surfaceContainerHigh,
+            1f to Color.Yellow.copy(alpha = 0.25f)
+        )
+        "B" -> arrayOf(
+            0.7f to MaterialTheme.colorScheme.surfaceContainerHigh,
+            1f to Color.Yellow.copy(alpha = 0.15f)
+        )
+        "B-" -> arrayOf(
+            0.7f to MaterialTheme.colorScheme.surfaceContainerHigh,
+            1f to Color.Yellow.copy(alpha = 0.1f)
+        )
+        "C+" -> arrayOf(
+            0.7f to MaterialTheme.colorScheme.surfaceContainerHigh,
+            1f to Color(0xFFFFA500).copy(alpha = 0.25f)
+        )
+        "C" -> arrayOf(
+            0.7f to MaterialTheme.colorScheme.surfaceContainerHigh,
+            1f to Color(0xFFFFA500).copy(alpha = 0.15f)
+        )
+        "D+" -> arrayOf(
+            0.7f to MaterialTheme.colorScheme.surfaceContainerHigh,
+            1f to Color.Red.copy(alpha = 0.25f)
+        )
+        "D" -> arrayOf(
+            0.7f to MaterialTheme.colorScheme.surfaceContainerHigh,
+            1f to Color.Red.copy(alpha = 0.15f)
+        )
         else -> arrayOf(
-            1f to MaterialTheme.colorScheme.surfaceContainerHigh
+            0.7f to MaterialTheme.colorScheme.surfaceContainerHigh,
+            1f to Color.Black.copy(alpha = 0.15f)
         )
     }
 
@@ -283,8 +311,8 @@ fun SubjectCard(
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
-                    Text(text = "avg.", fontSize = 12.sp, fontWeight = FontWeight.Light)
-                    Spacer(modifier = Modifier.width(4.dp))
+//                    Text(text = "avg.", fontSize = 12.sp, fontWeight = FontWeight.Light)
+//                    Spacer(modifier = Modifier.width(4.dp))
                     Row {
                         Text(
                             text = subject.gradeAsPercentage,
@@ -297,8 +325,8 @@ fun SubjectCard(
                             fontWeight = FontWeight.Medium
                         )
                     }
-                    Spacer(modifier = Modifier.width(4.dp))
-                    Text(text = "OVR", fontSize = 12.sp, fontWeight = FontWeight.Light)
+//                    Spacer(modifier = Modifier.width(4.dp))
+//                    Text(text = "OVR", fontSize = 12.sp, fontWeight = FontWeight.Light)
                 }
                 Column {
                     Text(
@@ -326,11 +354,11 @@ fun SubjectCard(
                     modifier = Modifier
                         .border(
                             width = 2.dp,
-                            color = Color.LightGray,
+                            color = Color.LightGray.copy(alpha = 0.5f),
                             shape = CircleShape
                         )
                         .background(
-                            color = Color.White,
+                            color = Color.White.copy(alpha = 0.5f),
                             shape = CircleShape
                         )
                         .size(48.dp)
