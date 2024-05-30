@@ -1,6 +1,5 @@
 package com.zexsys.almate.features.dashboard.presentation
 
-import co.yml.charts.common.model.Point
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -46,18 +45,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import co.yml.charts.axis.AxisData
-import co.yml.charts.common.extensions.formatToSinglePrecision
-import co.yml.charts.ui.linechart.LineChart
-import co.yml.charts.ui.linechart.model.GridLines
-import co.yml.charts.ui.linechart.model.IntersectionPoint
-import co.yml.charts.ui.linechart.model.Line
-import co.yml.charts.ui.linechart.model.LineChartData
-import co.yml.charts.ui.linechart.model.LinePlotData
-import co.yml.charts.ui.linechart.model.LineStyle
-import co.yml.charts.ui.linechart.model.SelectionHighlightPoint
-import co.yml.charts.ui.linechart.model.SelectionHighlightPopUp
-import co.yml.charts.ui.linechart.model.ShadowUnderLine
 import com.zexsys.almate.R
 import com.zexsys.almate.features.dashboard.domain.Grade
 import com.zexsys.almate.features.dashboard.domain.GradeInfoResponse
@@ -71,12 +58,11 @@ fun DashboardScreen(
     modifier: Modifier = Modifier
 ) {
 
-    val dashboardUiState = dashboardViewModel.dashboardUiState
-
-    when (dashboardUiState) {
+    when (val dashboardUiState = dashboardViewModel.dashboardUiState) {
         is DashboardUiState.Loading -> LoadingScreen(loadingText = "Fetching your latest grades")
         is DashboardUiState.Success -> DashboardResultScreen(
             gradeInfoResponse = dashboardUiState.gradeInfoResponse,
+            dashboardViewModel = dashboardViewModel,
             modifier = Modifier.safeDrawingPadding()
         )
         is DashboardUiState.Error -> ErrorScreen(
@@ -89,13 +75,14 @@ fun DashboardScreen(
 
 @Composable
 fun DashboardResultScreen(
+    dashboardViewModel: DashboardViewModel,
     gradeInfoResponse: GradeInfoResponse,
     modifier: Modifier = Modifier
 ) {
 
     Scaffold(
         floatingActionButton = {
-            FloatingActionButton(onClick = { /*TODO*/ }) {
+            FloatingActionButton(onClick = { dashboardViewModel.getGradeInfo() }) {
                 Icon(painter = painterResource(id = R.drawable.rounded_refresh_24),  contentDescription = null)
             }
         }
@@ -170,63 +157,14 @@ fun GpaCard(
                     .fillMaxWidth()
             ) {
 
-                val pointsData: List<Point> =
-                    listOf(
-                        Point(9f, 3.56f),
-                        Point(10f, 3.68f),
-                        Point(11f, 3.98f),
-                    )
-
-                val xAxisData = AxisData.Builder()
-                    .axisStepSize(100.dp)
-                    .backgroundColor(MaterialTheme.colorScheme.surfaceContainerHigh)
-                    .steps(pointsData.size - 1)
-                    .labelAndAxisLinePadding(12.dp)
-                    .labelData { i ->
-                        i.toString()
-                    }
-                    .build()
-
-                val yAxisData = AxisData.Builder()
-                    .axisStepSize(12.dp)
-                    .backgroundColor(MaterialTheme.colorScheme.surfaceContainerHigh)
-                    .labelAndAxisLinePadding(12.dp)
-                    .labelData { i ->
-                        i.toString()
-                    }
-                    .build()
-
-                val lineChartData = LineChartData(
-                    linePlotData = LinePlotData(
-                        lines = listOf(
-                            Line(
-                                dataPoints = pointsData,
-                                LineStyle(),
-                                IntersectionPoint(),
-                                SelectionHighlightPoint(),
-                                ShadowUnderLine(),
-                                SelectionHighlightPopUp()
-                            )
-                        ),
-                    ),
-                    xAxisData = xAxisData,
-                    yAxisData = yAxisData,
-                    backgroundColor = MaterialTheme.colorScheme.surfaceContainerHigh
-                )
-
-                LineChart(
-                    modifier = Modifier
-                        .fillMaxSize(),
-                    lineChartData = lineChartData
-                )
+                Text(text = "<graph supposed to go here>")
 
             }
             Spacer(modifier = Modifier.height(12.dp))
             Text(
                 text = "Current: ${gpa} GPA",
                 fontWeight = FontWeight.Bold,
-                fontSize = 32.sp,
-                lineHeight = 36.sp
+                style = MaterialTheme.typography.headlineSmall
             )
         }
     }
@@ -286,12 +224,6 @@ fun SubjectCard(
     }
 
     Box(
-//        Card(
-//        onClick = { },
-//        colors = CardDefaults.cardColors(
-//            containerColor = MaterialTheme.colorScheme.surfaceContainerHigh
-//            containerColor =
-//        ),
         modifier = Modifier
             .clip(RoundedCornerShape(12.dp))
             .background(Brush.horizontalGradient(colorStops = colorStops))
@@ -367,7 +299,7 @@ fun SubjectCard(
                         text = subject.gradeAsLetter,
                         fontSize = 18.sp,
                         fontWeight = FontWeight.Bold,
-                        color = Color.Black
+                        color = Color.White
                     )
                 }
                 Spacer(modifier = Modifier.height(4.dp))
