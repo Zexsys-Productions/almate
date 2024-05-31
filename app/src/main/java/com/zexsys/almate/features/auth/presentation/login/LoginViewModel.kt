@@ -1,5 +1,7 @@
 package com.zexsys.almate.features.auth.presentation.login
 
+import android.app.Application
+import android.widget.Toast
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -24,33 +26,54 @@ class LoginViewModel(
     private val credentialsPreferencesRepository: CredentialsPreferencesRepository
 ) : ViewModel() {
 
-    var isLoading by mutableStateOf(false)
-
-    val savedUsername: StateFlow<String> =
-        credentialsPreferencesRepository.username.map { it }.stateIn(
-            scope = viewModelScope,
-            started = SharingStarted.WhileSubscribed(5_000),
-            initialValue = ""
-        )
+    var signInEnabled by mutableStateOf(false)
+    var openLoadingDialog by mutableStateOf(false)
+    var errorLoggingIn by mutableStateOf(false)
 
     var school by mutableStateOf("")
+        private set
+
     var username by mutableStateOf("")
+        private set
+
     var password by mutableStateOf("")
+        private set
+
+    fun onSchoolChange(newSchool: String) {
+        school = newSchool
+        updateLoginEnabled()
+    }
+
+    fun onUsernameChange(newUsername: String) {
+        username = newUsername
+        updateLoginEnabled()
+    }
+
+    fun onPasswordChange(newPassword: String) {
+        password = newPassword
+        updateLoginEnabled()
+    }
+
+    private fun updateLoginEnabled() {
+        signInEnabled = school.isNotEmpty() && username.isNotEmpty() && password.isNotEmpty()
+    }
 
     fun signIn() {
         viewModelScope.launch {
-            isLoading = true
+            openLoadingDialog = true
             try {
                 val response = getalmaRepository.getVerificationResponse(school, username, password)
                 if (response.authentic) {
                     credentialsPreferencesRepository.saveSchool(school)
                     credentialsPreferencesRepository.saveUsername(username)
                     credentialsPreferencesRepository.savePassword(password)
+                } else  {
+                    errorLoggingIn = true
                 }
-                isLoading = false
+                openLoadingDialog = false
             } catch (e: IOException) {
                 println("Error occurred during logging in.")
-                isLoading = false
+                openLoadingDialog = false
             }
         }
     }
