@@ -7,10 +7,12 @@
 
 # **almate**
 
-almate is an [Alma SIS](https://getalma.com/) client.
+almate is...
 
-almate is an UNOFFICIAL client for Alma (SIS). It is not affiliated with or endorsed by Alma in any way.
+an [Alma SIS](https://getalma.com/) client.
 
-almate is your new favourite way to use Alma on your phone!
+an UNOFFICIAL client for Alma (SIS). It is not affiliated with or endorsed by Alma in any way.
 
-> **almate** is supposed to be your "mate" for Alma. An AI bot will come soon to help you investigate your grades.
+your new favourite way to use Alma on your phone!
+
+> **almate** is supposed to be your "mate" for Alma. AI features will come soon to help you to get the most out of your grades.
