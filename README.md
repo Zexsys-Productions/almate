@@ -3,6 +3,7 @@
 </p>
 <p align="center">
    <img src="https://img.shields.io/badge/platforms-android-blueviolet?style=for-the-badge"/>
+   [![Better Stack Badge](https://uptime.betterstack.com/status-badges/v2/monitor/1cxzg.svg)](https://uptime.betterstack.com/?utm_source=status_badge)
 </p>
 
 # **almate** 🌟
