@@ -2,10 +2,8 @@
    <img src="https://github.com/smattsil/almate/blob/main/app/src/main/res/drawable/vectoralmatelexend.png" alt="Almate Logo" width=50% >
 </p>
 <p align="center">
-   <img src="https://img.shields.io/badge/platforms-android-blueviolet?style=for-the-badge"/>
+   <img src="https://uptime.betterstack.com/status-badges/v1/monitor/1cxzg.svg"/>
 </p>
-
-[![Better Stack Badge](https://uptime.betterstack.com/status-badges/v1/monitor/1cxzg.svg)](https://uptime.betterstack.com/?utm_source=status_badge)
 
 # **almate** 🌟
 
