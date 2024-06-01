@@ -1,5 +1,7 @@
 <p align="center">
-   <img src="https://github.com/smattsil/almate/blob/main/app/src/main/res/drawable/vectoralmatelexend.png" alt="Almate Logo" width=50% >
+   <a href="https://github.com/smattsil/almate/releases">
+     <img src="https://github.com/smattsil/almate/blob/main/app/src/main/res/drawable/vectoralmatelexend.png" alt="Almate Logo" width=25%>
+   </a>
 </p>
 <p align="center">
    <a href="https://almate.betteruptime.com/">
