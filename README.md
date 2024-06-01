@@ -16,3 +16,8 @@ almate is...
 - an UNOFFICIAL client for Alma. It is not affiliated with or endorsed by Alma in any way.
 - your new favourite way to use Alma on your phone!
 - dependent on [the custom open source API](https://github.com/smattsil/getalma-api).
+
+todo:
+- leaderboard
+- ui rehaul of subject screen
+- chatbot
