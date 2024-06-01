@@ -80,7 +80,7 @@ fun LoginScreen(
     ) {
 
         Image(
-            painter = painterResource(id = R.drawable.almate),
+            painter = painterResource(id = R.drawable.vectoralmatelexend),
             contentDescription = stringResource(id = R.string.app_name),
             modifier = Modifier.size(200.dp)
         )

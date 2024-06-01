@@ -39,8 +39,12 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -139,9 +143,33 @@ fun GpaCard(
     gpa: String,
     modifier: Modifier = Modifier
 ) {
+
+    val colorStops = when (gpa.toDouble()) {
+
+        in 3.5..4.0 -> arrayOf(
+            0.0f to Color(0xFF76b852),
+            1f to Color(0xFF8DC26F),
+        )
+
+        in 3.0..3.4 -> arrayOf(
+            0.0f to Color(0xFFFFE000),
+            1f to Color(0xFF799F0C),
+        )
+
+        in 2.0..2.9 -> arrayOf(
+            0.0f to Color(0xFFf46b45),
+            1f to Color(0xFFeea849),
+        )
+
+        else -> arrayOf(
+            0.0f to Color.Black,
+            1f to Color.White
+        )
+    }
+
     ElevatedCard(
         colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surfaceContainerHighest
+            containerColor = MaterialTheme.colorScheme.surfaceContainer
         ),
         modifier = Modifier
             .fillMaxWidth()
@@ -161,11 +189,22 @@ fun GpaCard(
 
             }
             Spacer(modifier = Modifier.height(12.dp))
-            Text(
-                text = "Current: ${gpa} GPA",
-                fontWeight = FontWeight.Bold,
-                style = MaterialTheme.typography.headlineSmall
-            )
+
+            Row {
+                Text(
+                    text = "Current: ",
+                    fontWeight = FontWeight.Bold,
+                    style = MaterialTheme.typography.headlineSmall
+                )
+                Text(
+                    text = "${gpa} GPA",
+                    fontWeight = FontWeight.Bold,
+                    style = MaterialTheme.typography.headlineSmall.copy(
+                        brush = Brush.horizontalGradient(colorStops = colorStops)
+                    )
+                )
+            }
+
         }
     }
 }
@@ -178,44 +217,48 @@ fun SubjectCard(
 
     val colorStops = when (subject.gradeAsLetter) {
         "A+" -> arrayOf(
-            0.7f to MaterialTheme.colorScheme.surfaceContainerHigh,
-            1f to Color.Green.copy(alpha = 0.25f)
+            0.0f to Color(0xFF76b852),
+            1f to Color(0xFF8DC26F),
         )
         "A" -> arrayOf(
-            0.7f to MaterialTheme.colorScheme.surfaceContainerHigh,
-            1f to Color.Green.copy(alpha = 0.15f)
+            0.0f to Color(0xFF76b852).copy(alpha = 0.8f),
+            1f to Color(0xFF8DC26F).copy(alpha = 0.8f),
         )
         "A-" -> arrayOf(
-            0.7f to MaterialTheme.colorScheme.surfaceContainerHigh,
-            1f to Color.Green.copy(alpha = 0.1f)
+            0.0f to Color(0xFF76b852).copy(alpha = 0.6f),
+            1f to Color(0xFF8DC26F).copy(alpha = 0.6f),
         )
         "B+" -> arrayOf(
-            0.7f to MaterialTheme.colorScheme.surfaceContainerHigh,
-            1f to Color.Yellow.copy(alpha = 0.25f)
+            0.0f to Color(0xFF799F0C).copy(alpha = 0.8f),
+            1f to Color(0xFFFFE000).copy(alpha = 0.8f),
         )
         "B" -> arrayOf(
-            0.7f to MaterialTheme.colorScheme.surfaceContainerHigh,
-            1f to Color.Yellow.copy(alpha = 0.15f)
+            0.0f to Color(0xFF799F0C).copy(alpha = 0.7f),
+            1f to Color(0xFFFFE000).copy(alpha = 0.7f),
         )
         "B-" -> arrayOf(
-            0.7f to MaterialTheme.colorScheme.surfaceContainerHigh,
-            1f to Color.Yellow.copy(alpha = 0.1f)
+            0.0f to Color(0xFF799F0C).copy(alpha = 0.6f),
+            1f to Color(0xFFFFE000).copy(alpha = 0.6f),
         )
         "C+" -> arrayOf(
-            0.7f to MaterialTheme.colorScheme.surfaceContainerHigh,
-            1f to Color(0xFFFFA500).copy(alpha = 0.25f)
+            0.0f to Color(0xFFf46b45),
+            1f to Color(0xFFeea849),
         )
         "C" -> arrayOf(
-            0.7f to MaterialTheme.colorScheme.surfaceContainerHigh,
-            1f to Color(0xFFFFA500).copy(alpha = 0.15f)
+            0.0f to Color(0xFFf46b45).copy(alpha = 0.8f),
+            1f to Color(0xFFeea849).copy(alpha = 0.8f),
         )
         "D+" -> arrayOf(
-            0.7f to MaterialTheme.colorScheme.surfaceContainerHigh,
-            1f to Color.Red.copy(alpha = 0.25f)
+            0.0f to Color(0xFFEB5757),
+            1f to Color.Black,
         )
         "D" -> arrayOf(
-            0.7f to MaterialTheme.colorScheme.surfaceContainerHigh,
-            1f to Color.Red.copy(alpha = 0.15f)
+            0.0f to Color(0xFFEB5757).copy(alpha = 0.8f),
+            1f to Color.Black.copy(alpha = 0.8f),
+        )
+        "E" -> arrayOf(
+            0.0f to Color.Black,
+            1f to Color(0xFF434343),
         )
         else -> arrayOf(
             0.7f to MaterialTheme.colorScheme.surfaceContainerHigh,
@@ -226,7 +269,7 @@ fun SubjectCard(
     Box(
         modifier = Modifier
             .clip(RoundedCornerShape(12.dp))
-            .background(Brush.horizontalGradient(colorStops = colorStops))
+            .background(Brush.linearGradient(colorStops = colorStops))
             .fillMaxWidth()
             .clickable { }
     ) {

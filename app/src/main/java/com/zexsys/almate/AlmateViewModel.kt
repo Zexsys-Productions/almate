@@ -74,7 +74,7 @@ class AlmateViewModel(
                 if (school.isEmpty() || username.isEmpty() || password.isEmpty()) {
                     // Start a delay job to set LoggedOut after 5 seconds
                     delayJob = viewModelScope.launch {
-                        delay(1_000) // Wait for 5 seconds
+                        delay(500) // Wait for 5 seconds
                         appUiState = AppUiState.LoggedOut
                     }
                 } else {
