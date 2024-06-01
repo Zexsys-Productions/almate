@@ -23,12 +23,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.zexsys.almate.R
-import com.zexsys.almate.features.profile.domain.StudentInfoResponse
+import com.zexsys.almate.features.profile.domain.PersonalInfo
 import com.zexsys.almate.ui.ErrorScreen
 import com.zexsys.almate.ui.LoadingScreen
 import com.zexsys.almate.ui.theme.AlmateTheme
@@ -46,7 +45,7 @@ fun ProfileScreen(
         is ProfileUiState.Success -> {
             ProfileResultScreen(
                 profileViewModel = profileViewModel,
-                studentInfoResponse = profileUiState.studentInfoResponse
+                personalInfo = profileUiState.personalInfo
             )
         }
         is ProfileUiState.Error -> { ErrorScreen(
@@ -60,7 +59,7 @@ fun ProfileScreen(
 @Composable
 fun ProfileResultScreen(
     profileViewModel: ProfileViewModel,
-    studentInfoResponse: StudentInfoResponse,
+    personalInfo: PersonalInfo,
     modifier: Modifier = Modifier
 ) {
 
@@ -76,7 +75,7 @@ fun ProfileResultScreen(
             color = Color.White.copy(alpha = 0.5f)
         )
         Text(
-            text = "${studentInfoResponse.name}!",
+            text = "${personalInfo.name}!",
             style = MaterialTheme.typography.headlineLarge,
             fontWeight = FontWeight.Bold,
             textAlign = TextAlign.Center,
@@ -86,7 +85,7 @@ fun ProfileResultScreen(
 
         Spacer(modifier = Modifier.height(48.dp))
 
-        InfoBox(studentInfoResponse = studentInfoResponse)
+        InfoBox(personalInfo = personalInfo)
 
         Button(
             onClick = { profileViewModel.logOut() },
@@ -104,34 +103,34 @@ fun ProfileResultScreen(
 
 @Composable
 fun InfoBox(
-    studentInfoResponse: StudentInfoResponse
+    personalInfo: PersonalInfo
 ) {
     Column(
-        modifier = Modifier.padding(horizontal = 16.dp).verticalScroll(rememberScrollState())
+        modifier = Modifier.padding(horizontal = 32.dp).verticalScroll(rememberScrollState())
     ) {
 
         InfoSegment(
             icon = R.drawable.rounded_alternate_email_24,
             key = "Email",
-            value = studentInfoResponse.email
+            value = personalInfo.email
         )
 
         InfoSegment(
             icon = R.drawable.rounded_location_on_24,
             key = "Home",
-            value = studentInfoResponse.address
+            value = personalInfo.address
         )
 
         InfoSegment(
             icon = R.drawable.rounded_car_tag_24,
             key = "Family Number",
-            value = studentInfoResponse.family
+            value = personalInfo.family
         )
 
         InfoSegment(
             icon = R.drawable.rounded_lock_24,
             key = "Locker Number",
-            value = studentInfoResponse.locker
+            value = personalInfo.locker
         )
 
     }

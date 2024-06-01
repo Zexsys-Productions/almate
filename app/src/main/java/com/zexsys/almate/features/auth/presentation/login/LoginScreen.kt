@@ -1,28 +1,17 @@
 package com.zexsys.almate.features.auth.presentation.login
 
-import android.app.Application
-import android.content.Context
-import android.text.style.UnderlineSpan
 import android.widget.Toast
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
-import androidx.compose.material3.Card
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
@@ -42,11 +31,9 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.Dialog
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.zexsys.almate.R
 import com.zexsys.almate.ui.theme.AlmateTheme
-import kotlin.math.log
 
 @Composable
 fun LoginScreen(
@@ -62,7 +49,7 @@ fun LoginScreen(
 
     when {
         loginViewModel.errorLoggingIn -> {
-            val text = "Invalid credentials!"
+            val text = loginViewModel.errorMessage
             val duration = Toast.LENGTH_SHORT
             val toast = Toast.makeText(LocalContext.current, text, duration)
             toast.show()
@@ -80,7 +67,7 @@ fun LoginScreen(
     ) {
 
         Image(
-            painter = painterResource(id = R.drawable.vectoralmatelexend),
+            painter = painterResource(id = R.drawable.almatepng),
             contentDescription = stringResource(id = R.string.app_name),
             modifier = Modifier.size(200.dp)
         )

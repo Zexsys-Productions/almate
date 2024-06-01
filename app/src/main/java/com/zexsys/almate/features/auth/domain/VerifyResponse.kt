@@ -4,5 +4,5 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class VerifyResponse(
-    val authentic: Boolean
+    val authentic: Int
 )

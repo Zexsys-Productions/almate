@@ -29,6 +29,7 @@ class LoginViewModel(
     var signInEnabled by mutableStateOf(false)
     var openLoadingDialog by mutableStateOf(false)
     var errorLoggingIn by mutableStateOf(false)
+    var errorMessage by mutableStateOf("")
 
     var school by mutableStateOf("")
         private set
@@ -63,16 +64,22 @@ class LoginViewModel(
             openLoadingDialog = true
             try {
                 val response = getalmaRepository.getVerificationResponse(school, username, password)
-                if (response.authentic) {
+                if (response.authentic == 302) {
                     credentialsPreferencesRepository.saveSchool(school)
                     credentialsPreferencesRepository.saveUsername(username)
                     credentialsPreferencesRepository.savePassword(password)
-                } else  {
+                } else if (response.authentic == 500) {
+                    errorMessage = "Invalid credentials!"
+                    errorLoggingIn = true
+                } else if (response.authentic == 301) {
+                    errorMessage = "Invalid school!"
+                    errorLoggingIn = true
+                } else {
+                    errorMessage = "Something terrible went wrong."
                     errorLoggingIn = true
                 }
                 openLoadingDialog = false
             } catch (e: IOException) {
-                println("Error occurred during logging in.")
                 openLoadingDialog = false
             }
         }

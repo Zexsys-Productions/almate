@@ -1,9 +1,10 @@
 package com.zexsys.almate.data
 
 import com.zexsys.almate.features.auth.domain.VerifyResponse
+import com.zexsys.almate.features.dashboard.domain.GpaResponse
+import com.zexsys.almate.features.dashboard.domain.Grades
 import com.zexsys.almate.network.GetalmaApiService
-import com.zexsys.almate.features.dashboard.domain.GradeInfoResponse
-import com.zexsys.almate.features.profile.domain.StudentInfoResponse
+import com.zexsys.almate.features.profile.domain.PersonalInfo
 
 interface GetalmaRepository {
 
@@ -13,18 +14,23 @@ interface GetalmaRepository {
         password: String,
     ): VerifyResponse
 
-    suspend fun getCurrentGradeInfo(
+    suspend fun getGrades(
         school: String,
         username: String,
         password: String,
-    ): GradeInfoResponse
+    ): Grades
 
-
-    suspend fun getStudentInfo(
+    suspend fun getGpa(
         school: String,
         username: String,
         password: String,
-    ): StudentInfoResponse
+    ): GpaResponse
+
+    suspend fun getPersonalInfo(
+        school: String,
+        username: String,
+        password: String,
+    ): PersonalInfo
 
 }
 
@@ -40,20 +46,28 @@ class NetworkGetalmaRepository(
         return getalmaApiService.getVerificationStatus(school, username, password)
     }
 
-    override suspend fun getCurrentGradeInfo(
+    override suspend fun getGrades(
         school: String,
         username: String,
         password: String
-    ): GradeInfoResponse {
-        return getalmaApiService.getCurrentGradeInfo(school, username, password)
+    ): Grades {
+        return getalmaApiService.getGrades(school, username, password)
     }
 
-    override suspend fun getStudentInfo(
+    override suspend fun getGpa(
         school: String,
         username: String,
         password: String
-    ): StudentInfoResponse {
-        return getalmaApiService.getStudentInfo(school, username, password)
+    ): GpaResponse {
+        return getalmaApiService.getGpa(school, username, password)
+    }
+
+    override suspend fun getPersonalInfo(
+        school: String,
+        username: String,
+        password: String
+    ): PersonalInfo {
+        return getalmaApiService.getPersonalInfo(school, username, password)
     }
 
 }

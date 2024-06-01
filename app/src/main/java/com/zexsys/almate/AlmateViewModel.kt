@@ -81,7 +81,7 @@ class AlmateViewModel(
                     // Verify credentials immediately if they are not empty
                     try {
                         val response = getalmaRepository.getVerificationResponse(school, username, password)
-                        if (response.authentic) {
+                        if (response.authentic == 302) {
                             appUiState = AppUiState.LoggedIn
                         } else {
                             appUiState = AppUiState.LoggedOut

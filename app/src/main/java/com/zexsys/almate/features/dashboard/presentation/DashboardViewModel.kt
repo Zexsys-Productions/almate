@@ -12,7 +12,9 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 import com.zexsys.almate.AlmateApplication
 import com.zexsys.almate.data.GetalmaRepository
 import com.zexsys.almate.features.auth.data.CredentialsPreferencesRepository
-import com.zexsys.almate.features.dashboard.domain.GradeInfoResponse
+import com.zexsys.almate.features.dashboard.domain.GpaResponse
+import com.zexsys.almate.features.dashboard.domain.Grades
+import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
@@ -21,7 +23,7 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 sealed interface DashboardUiState {
-    data class Success(val gradeInfoResponse: GradeInfoResponse) : DashboardUiState
+    data class Success(val grades: Grades, val gpaResponse: GpaResponse) : DashboardUiState
     object Error : DashboardUiState
     object Loading : DashboardUiState
 }
@@ -56,13 +58,14 @@ class DashboardViewModel(
         )
 
     init {
-        getGradeInfo()
+        getDashboardInfo()
     }
 
-    fun getGradeInfo() {
-        viewModelScope.launch {
+    fun getDashboardInfo() {
 
-            dashboardUiState = DashboardUiState.Loading
+        dashboardUiState = DashboardUiState.Loading
+
+        viewModelScope.launch {
 
             combine(
                 savedSchool,
@@ -72,8 +75,13 @@ class DashboardViewModel(
 
                 dashboardUiState = if (school.isNotEmpty() && username.isNotEmpty() && password.isNotEmpty()) {
                     try {
-                        val response = getalmaRepository.getCurrentGradeInfo(school = school, username = username, password = password)
-                        DashboardUiState.Success(response)
+                        val gradesDeferred = async { getalmaRepository.getGrades(school = school, username = username, password = password) }
+                        val gpaDeferred = async { getalmaRepository.getGpa(school = school, username = username, password = password) }
+
+                        val grades = gradesDeferred.await()
+                        val gpa = gpaDeferred.await()
+
+                        DashboardUiState.Success(grades, gpa)
                     } catch (e: IOException) {
                         DashboardUiState.Error
                     }
@@ -81,6 +89,7 @@ class DashboardViewModel(
                     DashboardUiState.Loading
                 }
             }
+
         }
     }
 

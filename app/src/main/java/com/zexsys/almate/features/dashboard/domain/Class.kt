@@ -3,11 +3,11 @@ package com.zexsys.almate.features.dashboard.domain
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class Assignment(
-    val category: String,
+data class Class(
     val gradeAsLetter: String,
-    val gradeAsPercentage: String,
+    val gradeAsPercentage: Int,
     val name: String,
-    val percentageOfGrade: String,
-    val updated: String
+    val teacher: String,
+    val url: String,
+    val weight: Double
 )

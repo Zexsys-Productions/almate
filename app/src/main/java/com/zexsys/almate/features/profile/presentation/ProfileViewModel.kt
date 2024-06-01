@@ -12,7 +12,7 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 import com.zexsys.almate.AlmateApplication
 import com.zexsys.almate.data.GetalmaRepository
 import com.zexsys.almate.features.auth.data.CredentialsPreferencesRepository
-import com.zexsys.almate.features.profile.domain.StudentInfoResponse
+import com.zexsys.almate.features.profile.domain.PersonalInfo
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
@@ -22,7 +22,7 @@ import kotlinx.coroutines.launch
 import java.io.IOException
 
 sealed interface ProfileUiState {
-    data class Success(val studentInfoResponse: StudentInfoResponse) : ProfileUiState
+    data class Success(val personalInfo: PersonalInfo) : ProfileUiState
     object Error : ProfileUiState
     object Loading : ProfileUiState
 }
@@ -74,8 +74,8 @@ class ProfileViewModel(
 
                 profileUiState = if (school.isNotEmpty() && username.isNotEmpty() && password.isNotEmpty()) {
                     try {
-                        val response = getalmaRepository.getStudentInfo(school = school, username = username, password = password)
-                        ProfileUiState.Success(studentInfoResponse = response)
+                        val response = getalmaRepository.getPersonalInfo(school = school, username = username, password = password)
+                        ProfileUiState.Success(personalInfo = response)
                     } catch (e: IOException) {
                         ProfileUiState.Error
                     }

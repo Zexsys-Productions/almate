@@ -14,12 +14,12 @@ interface AppContainer {
 
 class DefaultAppContainer : AppContainer {
 
-    private val baseUrl = "https://getalma-async.onrender.com"
+    private val baseUrl = "https://getalma-async-v2.onrender.com"
 
     private val okHttpClient = OkHttpClient.Builder()
-        .connectTimeout(30, TimeUnit.SECONDS)
-        .readTimeout(30, TimeUnit.SECONDS)
-        .writeTimeout(30, TimeUnit.SECONDS)
+        .connectTimeout(10, TimeUnit.SECONDS)
+        .readTimeout(10, TimeUnit.SECONDS)
+        .writeTimeout(10, TimeUnit.SECONDS)
         .build()
 
     private val retrofit = Retrofit.Builder()
