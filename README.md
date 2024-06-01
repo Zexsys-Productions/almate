@@ -1,6 +1,6 @@
 <p align="center">
    <a href="https://github.com/smattsil/almate/releases">
-     <img src="https://github.com/smattsil/almate/blob/main/app/src/main/res/drawable/vectoralmatelexend.png" alt="Almate Logo" width=75%>
+     <img src="https://github.com/smattsil/almate/blob/main/app/src/main/res/drawable/vectoralmatelexend.png" alt="Almate Logo" width=50%>
    </a>
 </p>
 <p align="center">
