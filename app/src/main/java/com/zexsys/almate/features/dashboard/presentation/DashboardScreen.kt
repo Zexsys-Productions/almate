@@ -63,7 +63,7 @@ fun DashboardScreen(
 ) {
 
     when (val dashboardUiState = dashboardViewModel.dashboardUiState) {
-        is DashboardUiState.Loading -> LoadingScreen(loadingText = "Fetching your latest grades")
+        is DashboardUiState.Loading -> LoadingScreen(loadingText = "Fetching your latest grades...")
         is DashboardUiState.Success -> DashboardResultScreen(
             gradeInfoResponse = dashboardUiState.gradeInfoResponse,
             dashboardViewModel = dashboardViewModel,
@@ -297,7 +297,7 @@ fun SubjectCard(
                         Text(
                             text = "%",
                             fontSize = 24.sp,
-                            fontWeight = FontWeight.Medium
+                            fontWeight = FontWeight.SemiBold
                         )
                     }
 //                    Spacer(modifier = Modifier.width(4.dp))
@@ -307,14 +307,15 @@ fun SubjectCard(
                     Text(
                         text = subject.name,
                         fontSize = 16.sp,
-                        fontWeight = FontWeight.Medium,
+                        lineHeight = 16.sp,
+                        fontWeight = FontWeight.SemiBold,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis
                     )
                     Text(
                         text = subject.teacher,
                         fontSize = 12.sp,
-                        fontWeight = FontWeight.Light,
+                        lineHeight = 12.sp,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis
                     )
@@ -336,11 +337,11 @@ fun SubjectCard(
                             color = Color.White.copy(alpha = 0.5f),
                             shape = CircleShape
                         )
-                        .size(48.dp)
+                        .size(36.dp)
                 ) {
                     Text(
                         text = subject.gradeAsLetter,
-                        fontSize = 18.sp,
+                        fontSize = 14.sp,
                         fontWeight = FontWeight.Bold,
                         color = Color.White
                     )
@@ -348,8 +349,8 @@ fun SubjectCard(
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(
                     text = "Weight: ${subject.weight}",
-                    fontSize = 14.sp,
-                    fontWeight = FontWeight.Light
+                    fontSize = 12.sp,
+                    lineHeight = 12.sp
                 )
             }
         }

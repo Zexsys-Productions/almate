@@ -14,8 +14,8 @@ class FGCViewModel() : ViewModel() {
     fun calculateNeeded(
         current: String,
         goal:  String
-    ): Double {
-        return -4 * current.toDouble() + 5 * goal.toDouble()
+    ): Int {
+        return (-4 * current.toDouble() + 5 * goal.toDouble()).toInt()
     }
 
 }

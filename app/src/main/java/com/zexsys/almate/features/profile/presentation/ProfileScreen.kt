@@ -9,6 +9,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
@@ -40,7 +42,7 @@ fun ProfileScreen(
     val profileUiState = profileViewModel.profileUiState
 
     when (profileUiState) {
-        is ProfileUiState.Loading -> { LoadingScreen(loadingText = "Getting your info") }
+        is ProfileUiState.Loading -> { LoadingScreen(loadingText = "Getting your info...") }
         is ProfileUiState.Success -> {
             ProfileResultScreen(
                 profileViewModel = profileViewModel,
@@ -65,7 +67,8 @@ fun ProfileResultScreen(
     Column(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = modifier.fillMaxSize()
+        modifier = modifier
+            .fillMaxSize()
     ) {
         Text(
             text = "Welcome back,",
@@ -104,7 +107,7 @@ fun InfoBox(
     studentInfoResponse: StudentInfoResponse
 ) {
     Column(
-        modifier = Modifier.padding(horizontal = 16.dp)
+        modifier = Modifier.padding(horizontal = 16.dp).verticalScroll(rememberScrollState())
     ) {
 
         InfoSegment(
@@ -160,9 +163,7 @@ fun InfoSegment(
             Text(
                 text = value,
                 style = MaterialTheme.typography.bodySmall,
-                color = Color.White.copy(alpha = 0.5f),
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis
+                color = Color.White.copy(alpha = 0.5f)
             )
         }
     }
