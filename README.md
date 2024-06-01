@@ -8,6 +8,6 @@
 # **almate** 🌟
 
 almate is...
-- an [Alma SIS](https://getalma.com/) client.
-- an UNOFFICIAL client for Alma (SIS). It is not affiliated with or endorsed by Alma in any way.
+- an [Alma](https://getalma.com/) client.
+- an UNOFFICIAL client for Alma. It is not affiliated with or endorsed by Alma in any way.
 - your new favourite way to use Alma on your phone!
