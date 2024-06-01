@@ -1,5 +1,5 @@
 <p align="center">
-   <img src="https://github.com/smattsil/almate/blob/main/app/src/main/res/drawable/almatelexend.png" alt="Almate Logo" width=100% >
+   <img src="https://github.com/smattsil/almate/blob/main/app/src/main/res/drawable/almatelexend.png" alt="Almate Logo" width=50% >
 </p>
 <p align="center">
    <img src="https://img.shields.io/badge/platforms-android-blueviolet?style=for-the-badge"/>
