@@ -2,7 +2,7 @@
    <img src="https://github.com/smattsil/almate/blob/main/app/src/main/res/drawable/vectoralmatelexend.png" alt="Almate Logo" width=50% >
 </p>
 <p align="center">
-   <a href="https://uptime.betterstack.com/?utm_source=status_badge">
+   <a href="https://almate.betteruptime.com/">
      <img src="https://uptime.betterstack.com/status-badges/v1/monitor/1cxzg.svg" alt="Better Stack Badge">
    </a>
 </p>
