@@ -1,5 +1,6 @@
 package com.zexsys.almate.features.dashboard.presentation
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -15,6 +16,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBars
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
@@ -28,12 +30,14 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -45,7 +49,6 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.zexsys.almate.R
 import com.zexsys.almate.features.dashboard.domain.Class
 import com.zexsys.almate.features.dashboard.domain.GpaResponse
-import com.zexsys.almate.features.dashboard.domain.Grades
 import com.zexsys.almate.ui.ErrorScreen
 import com.zexsys.almate.ui.LoadingScreen
 import com.zexsys.almate.ui.theme.AlmateTheme
@@ -59,13 +62,12 @@ fun DashboardScreen(
     when (val dashboardUiState = dashboardViewModel.dashboardUiState) {
         is DashboardUiState.Loading -> LoadingScreen(loadingText = "Fetching your latest grades...")
         is DashboardUiState.Success -> DashboardResultScreen(
-            grades = dashboardUiState.grades,
+            classes = dashboardUiState.classes,
             gpa = dashboardUiState.gpaResponse,
             dashboardViewModel = dashboardViewModel,
             modifier = Modifier.safeDrawingPadding()
         )
         is DashboardUiState.Error -> ErrorScreen(
-            errorText = "Failed to fetch your latest grades.",
             onRetry = { dashboardViewModel.getDashboardInfo() }
         )
     }
@@ -76,7 +78,7 @@ fun DashboardScreen(
 fun DashboardResultScreen(
     dashboardViewModel: DashboardViewModel,
     gpa: GpaResponse,
-    grades: Grades,
+    classes: List<Class>,
     modifier: Modifier = Modifier
 ) {
 
@@ -87,11 +89,10 @@ fun DashboardResultScreen(
             }
         }
     ) {
-        val padding = it
         Column(
             modifier = Modifier
                 .verticalScroll(rememberScrollState())
-                .windowInsetsPadding(WindowInsets.statusBars)
+                .padding(it)
                 .padding(horizontal = 16.dp, vertical = 8.dp)
         ) {
 
@@ -99,7 +100,7 @@ fun DashboardResultScreen(
 
                 Text(
                     text = "GPA Analytics",
-                    style = MaterialTheme.typography.headlineLarge,
+                    style = MaterialTheme.typography.headlineSmall,
                     fontWeight = FontWeight.Bold
                 )
 
@@ -113,16 +114,38 @@ fun DashboardResultScreen(
 
             Column {
 
-                Text(
-                    text = "Grades",
-                    style = MaterialTheme.typography.headlineLarge,
-                    fontWeight = FontWeight.Bold
-                )
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Text(
+                        text = "Grades",
+                        style = MaterialTheme.typography.headlineSmall,
+                        fontWeight = FontWeight.Bold
+                    )
+                    TextButton(
+                        onClick = { dashboardViewModel.switchSort() }
+                    ) {
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Text(
+                                text = if (dashboardViewModel.sortedAlphabetically) "Alphabetical" else "Performance",
+                                style = MaterialTheme.typography.headlineSmall,
+                                fontWeight = FontWeight.Bold,
+                                color = MaterialTheme.colorScheme.onSurface
+                            )
+                            Spacer(modifier = Modifier.width(4.dp))
+                            Image(painter = painterResource(id = R.drawable.rounded_filter_24_filled), contentDescription = null, colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onSurface))
+                        }
+                    }
+                }
 
                 Column(
                     verticalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
-                    grades.classes.forEach { grade ->
+                    classes.forEach { grade ->
                         SubjectCard(grade)
                     }
                 }
@@ -190,12 +213,12 @@ fun GpaCard(
                 Text(
                     text = "Current: ",
                     fontWeight = FontWeight.Bold,
-                    style = MaterialTheme.typography.headlineSmall
+                    style = MaterialTheme.typography.titleLarge
                 )
                 Text(
                     text = "${gpa} GPA",
                     fontWeight = FontWeight.Bold,
-                    style = MaterialTheme.typography.headlineSmall.copy(
+                    style = MaterialTheme.typography.titleLarge.copy(
                         brush = Brush.horizontalGradient(colorStops = colorStops)
                     )
                 )

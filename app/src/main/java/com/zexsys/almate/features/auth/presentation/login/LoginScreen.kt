@@ -21,6 +21,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -69,6 +70,7 @@ fun LoginScreen(
         Image(
             painter = painterResource(id = R.drawable.almatepng),
             contentDescription = stringResource(id = R.string.app_name),
+            colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onSurface),
             modifier = Modifier.size(200.dp)
         )
 
@@ -151,7 +153,7 @@ fun LoginScreen(
             Text(
                 text = "Encountering issues?",
                 color = Color.Gray,
-                style = MaterialTheme.typography.labelLarge,
+                style = MaterialTheme.typography.labelSmall,
                 fontStyle = FontStyle.Italic
             )
         }

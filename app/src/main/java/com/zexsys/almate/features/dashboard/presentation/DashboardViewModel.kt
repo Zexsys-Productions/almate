@@ -12,6 +12,7 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 import com.zexsys.almate.AlmateApplication
 import com.zexsys.almate.data.GetalmaRepository
 import com.zexsys.almate.features.auth.data.CredentialsPreferencesRepository
+import com.zexsys.almate.features.dashboard.domain.Class
 import com.zexsys.almate.features.dashboard.domain.GpaResponse
 import com.zexsys.almate.features.dashboard.domain.Grades
 import kotlinx.coroutines.async
@@ -24,7 +25,7 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 sealed interface DashboardUiState {
-    data class Success(val grades: Grades, val gpaResponse: GpaResponse) : DashboardUiState
+    data class Success(val classes: List<Class>, val gpaResponse: GpaResponse) : DashboardUiState
     object Error : DashboardUiState
     object Loading : DashboardUiState
 }
@@ -36,6 +37,14 @@ class DashboardViewModel(
 
     var dashboardUiState: DashboardUiState by mutableStateOf(DashboardUiState.Loading)
         private set
+
+    var classes: List<Class> by mutableStateOf(emptyList())
+        private set
+
+    var gpa: GpaResponse by mutableStateOf(GpaResponse(emptyList(), ""))
+        private set
+
+    var sortedAlphabetically by mutableStateOf(true)
 
     private val savedSchool: StateFlow<String> =
         credentialsPreferencesRepository.school.map { it }.stateIn(
@@ -57,6 +66,16 @@ class DashboardViewModel(
             started = SharingStarted.WhileSubscribed(5_000),
             initialValue = ""
         )
+
+    fun switchSort() {
+        if (sortedAlphabetically) {
+            sortedAlphabetically = !sortedAlphabetically
+            dashboardUiState = DashboardUiState.Success(classes.sortedByDescending { it.gradeAsPercentage }, gpa)
+        } else {
+            sortedAlphabetically = !sortedAlphabetically
+            dashboardUiState = DashboardUiState.Success(classes.sortedByDescending { it.name }, gpa)
+        }
+    }
 
     init {
         getDashboardInfo()
@@ -80,10 +99,14 @@ class DashboardViewModel(
                             val gradesDeferred = async { getalmaRepository.getGrades(school = school, username = username, password = password) }
                             val gpaDeferred = async { getalmaRepository.getGpa(school = school, username = username, password = password) }
 
-                            val grades = gradesDeferred.await()
-                            val gpa = gpaDeferred.await()
+                            val gradesPromise = gradesDeferred.await()
+                            val gpaPromise = gpaDeferred.await()
 
-                            DashboardUiState.Success(grades, gpa)
+                            val sortedClasses = gradesPromise.classes.sortedBy { it.name }
+
+                            classes = gradesPromise.classes
+                            gpa = gpaPromise
+                            DashboardUiState.Success(sortedClasses, gpaPromise)
                         }
                     } catch (e: IOException) {
                         DashboardUiState.Error

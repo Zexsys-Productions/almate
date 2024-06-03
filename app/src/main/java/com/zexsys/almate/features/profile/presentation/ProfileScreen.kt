@@ -48,7 +48,6 @@ fun ProfileScreen(
             )
         }
         is ProfileUiState.Error -> { ErrorScreen(
-            errorText = "Failed to fetch your data!",
             onRetry = { profileViewModel.getStudentInfo() }
         ) }
     }

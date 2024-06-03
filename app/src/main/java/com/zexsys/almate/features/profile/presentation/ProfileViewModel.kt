@@ -13,6 +13,7 @@ import com.zexsys.almate.AlmateApplication
 import com.zexsys.almate.data.GetalmaRepository
 import com.zexsys.almate.features.auth.data.CredentialsPreferencesRepository
 import com.zexsys.almate.features.profile.domain.PersonalInfo
+import com.zexsys.almate.features.top.data.TopRepository
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
@@ -29,6 +30,7 @@ sealed interface ProfileUiState {
 
 class ProfileViewModel(
     private val getalmaRepository: GetalmaRepository,
+    private val topRepository: TopRepository,
     private val credentialsPreferencesRepository: CredentialsPreferencesRepository
 ) : ViewModel() {
 
@@ -89,6 +91,11 @@ class ProfileViewModel(
 
     fun logOut() {
         viewModelScope.launch {
+            try {
+                topRepository.deleteUser(savedUsername.value)
+            } catch (e: Exception) {
+                println("failed to delete user from users database.")
+            }
             credentialsPreferencesRepository.saveSchool("")
             credentialsPreferencesRepository.saveUsername("")
             credentialsPreferencesRepository.savePassword("")
@@ -101,6 +108,7 @@ class ProfileViewModel(
                 val application = (this[APPLICATION_KEY] as AlmateApplication)
                 ProfileViewModel(
                     getalmaRepository = application.container.getalmaRepository,
+                    topRepository = application.container.topRepository,
                     credentialsPreferencesRepository = application.credentialsPreferencesRepository
                 )
             }

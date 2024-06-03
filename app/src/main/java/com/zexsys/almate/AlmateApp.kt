@@ -4,7 +4,6 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
-import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteScaffold
@@ -25,7 +24,6 @@ import com.zexsys.almate.features.fgc.presentation.FGCScreen
 import com.zexsys.almate.features.profile.presentation.ProfileScreen
 import com.zexsys.almate.features.top.presentation.TopScreen
 import com.zexsys.almate.ui.LoadingScreen
-import com.zexsys.almate.ui.WorkInProgressScreen
 
 @Composable
 fun AlmateApp(
@@ -64,7 +62,10 @@ fun MainScreen(
         navigationSuiteItems = {
             AppDestinations.entries.forEach {
                 item(
-                    icon = { Icon(painterResource(it.icon), null) },
+                    icon = {
+                        if (currentDestination == it) {
+                            Icon(painterResource(it.selectedIcon), null) } else { Icon(painterResource(it.unselectedIcon), null) }
+                    },
                     label = { Text(stringResource(it.label)) },
                     selected = it == currentDestination,
                     onClick = { currentDestination = it }
@@ -84,13 +85,14 @@ fun MainScreen(
 
 enum class AppDestinations(
     @StringRes val label: Int,
-    @DrawableRes val icon: Int,
+    @DrawableRes val selectedIcon: Int,
+    @DrawableRes val unselectedIcon: Int,
     @StringRes val contentDescription: Int
 ) {
-    DASHBOARD(R.string.home, R.drawable.rounded_home_24, R.string.home),
-    TOP(R.string.top, R.drawable.rounded_leaderboard_24, R.string.top),
-    CALCULATOR(R.string.fgc, R.drawable.rounded_calculate_24, R.string.fgc),
-    PROFILE(R.string.profile, R.drawable.rounded_person_24, R.string.profile)
+    DASHBOARD(R.string.home, R.drawable.rounded_home_24_filled, R.drawable.rounded_home_24, R.string.home),
+    TOP(R.string.top, R.drawable.rounded_leaderboard_24_filled, R.drawable.rounded_leaderboard_24, R.string.top),
+    CALCULATOR(R.string.fgc, R.drawable.rounded_calculator_24_filled, R.drawable.rounded_calculate_24, R.string.fgc),
+    PROFILE(R.string.profile, R.drawable.rounded_person_24_filled, R.drawable.rounded_person_24, R.string.profile)
 }
 
 @Preview(showBackground = true)

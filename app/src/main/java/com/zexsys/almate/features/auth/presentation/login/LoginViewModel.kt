@@ -15,14 +15,17 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 import com.zexsys.almate.AlmateApplication
 import com.zexsys.almate.data.GetalmaRepository
 import com.zexsys.almate.features.auth.data.CredentialsPreferencesRepository
+import com.zexsys.almate.features.top.data.TopRepository
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import retrofit2.HttpException
 
 class LoginViewModel(
     private val getalmaRepository: GetalmaRepository,
+    private val topRepository: TopRepository,
     private val credentialsPreferencesRepository: CredentialsPreferencesRepository
 ) : ViewModel() {
 
@@ -68,6 +71,16 @@ class LoginViewModel(
                     credentialsPreferencesRepository.saveSchool(school)
                     credentialsPreferencesRepository.saveUsername(username)
                     credentialsPreferencesRepository.savePassword(password)
+                    try {
+                        val overallInfo = getalmaRepository.getOverallInfo(school, username, password)
+                        topRepository.upsertUser(overallInfo)
+                    } catch (e: IOException) {
+                        println("something went wrong with the HTTP request when upserting: IO")
+                    } catch (e: HttpException) {
+                        println("something went wrong with the HTTP request when upserting: HTTP")
+                    } catch (e: Exception) {
+                        println("something went wrong in general with the upserting of the users overall information")
+                    }
                 } else if (response.authentic == 500) {
                     errorMessage = "Invalid credentials!"
                     errorLoggingIn = true
@@ -91,6 +104,7 @@ class LoginViewModel(
                 val application = (this[APPLICATION_KEY] as AlmateApplication)
                 LoginViewModel(
                     getalmaRepository = application.container.getalmaRepository,
+                    topRepository = application.container.topRepository,
                     credentialsPreferencesRepository = application.credentialsPreferencesRepository
                 )
             }

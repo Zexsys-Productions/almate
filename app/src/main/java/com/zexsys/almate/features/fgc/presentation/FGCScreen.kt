@@ -54,12 +54,11 @@ fun FGCScreen(
         is DashboardUiState.Loading -> LoadingScreen(loadingText = "The math isn't mathing...")
         is DashboardUiState.Success -> {
             FGCResultScreen(
-                grades = dashboardUiState.grades,
+                classes = dashboardUiState.classes,
                 fgcViewModel = fgcViewModel
             )
         }
         is DashboardUiState.Error -> ErrorScreen(
-            errorText = "Failed to fetch your latest grades.",
             onRetry = { dashboardViewModel.getDashboardInfo() }
         )
     }
@@ -68,14 +67,13 @@ fun FGCScreen(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FGCResultScreen(
-    grades: Grades,
+    classes: List<Class>,
     fgcViewModel: FGCViewModel,
     modifier: Modifier = Modifier
 ) {
 
-    val grades: List<Class> = grades.classes
     var isExpanded by remember { mutableStateOf(false) }
-    var selectedSubject by remember { mutableStateOf(grades[0]) }
+    var selectedSubject by remember { mutableStateOf(classes[0]) }
 
     Column(
         verticalArrangement = Arrangement.Center,
@@ -151,7 +149,7 @@ fun FGCResultScreen(
                         expanded = isExpanded,
                         onDismissRequest = { isExpanded = false }
                     ) {
-                        grades.forEachIndexed { _, grade ->
+                        classes.forEachIndexed { _, grade ->
                             DropdownMenuItem(
                                 text = {
                                     Text(

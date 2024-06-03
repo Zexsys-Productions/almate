@@ -14,11 +14,12 @@ import java.util.concurrent.TimeUnit
 
 interface AppContainer {
     val getalmaRepository: GetalmaRepository
+    val topRepository: TopRepository
 }
 
 class DefaultAppContainer : AppContainer {
 
-    // getalma api
+    // getalma-async-v2 API
     private val baseUrl = "https://getalma-async-v2.onrender.com"
 
     private val okHttpClient = OkHttpClient.Builder()
@@ -39,6 +40,13 @@ class DefaultAppContainer : AppContainer {
 
     override val getalmaRepository: GetalmaRepository by lazy {
         NetworkGetalmaRepository(retrofitService)
+    }
+
+    // firebase
+    private val database = Firebase.database
+
+    override val topRepository: TopRepository by lazy {
+        NetworkTopRepository(database)
     }
 
 }
