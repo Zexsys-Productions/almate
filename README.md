@@ -9,6 +9,9 @@
    </a>
 </p>
 
+***You can Install and test latest NotyKT Android app from below 👇***
+[![Almate App](https://img.shields.io/github/v/release/smattsil/almate?color=7885FF&label=Almate%20App&logo=android&style=for-the-badge)](https://github.com/smattsil/almate/releases/download/v1.1.0/app-release.apk)
+
 # **almate** 🌟
 
 almate is...
