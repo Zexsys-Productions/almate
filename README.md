@@ -9,7 +9,7 @@
    </a>
 </p>
 <p align="center">
-**Click on the logo to install the latest Almate version!**
+Click on the logo to install the latest Almate version!
 </p>
 
 # **almate** 🌟
