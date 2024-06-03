@@ -8,8 +8,9 @@
      <img src="https://uptime.betterstack.com/status-badges/v1/monitor/1cxzg.svg" alt="Better Stack Badge">
    </a>
 </p>
-
+<p align="center">
 **Click on the logo to install the latest Almate version!**
+</p>
 
 # **almate** 🌟
 
