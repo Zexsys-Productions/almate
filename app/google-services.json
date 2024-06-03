@@ -1,13 +1,14 @@
 {
   "project_info": {
-    "project_number": "682427829704",
-    "project_id": "almate-getalma",
-    "storage_bucket": "almate-getalma.appspot.com"
+    "project_number": "18720970713",
+    "firebase_url": "https://almate-app-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "almate-app",
+    "storage_bucket": "almate-app.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:682427829704:android:3562dd1b7b7b11fa3304fd",
+        "mobilesdk_app_id": "1:18720970713:android:2713441f4508d14c902bc8",
         "android_client_info": {
           "package_name": "com.zexsys.almate"
         }
@@ -15,7 +16,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyDjs95yX-a1PfqrHSa7JbjA1J_SpCsKTwc"
+          "current_key": "AIzaSyCPjhiIYCBn1wQdydHrAmI9Ty2JdilkoZk"
         }
       ],
       "services": {

@@ -5,6 +5,7 @@ import com.zexsys.almate.features.dashboard.domain.GpaResponse
 import com.zexsys.almate.features.dashboard.domain.Grades
 import com.zexsys.almate.network.GetalmaApiService
 import com.zexsys.almate.features.profile.domain.PersonalInfo
+import com.zexsys.almate.features.top.domain.OverallInfo
 
 interface GetalmaRepository {
 
@@ -25,6 +26,12 @@ interface GetalmaRepository {
         username: String,
         password: String,
     ): GpaResponse
+
+    suspend fun getOverallInfo(
+        school: String,
+        username: String,
+        password: String,
+    ): OverallInfo
 
     suspend fun getPersonalInfo(
         school: String,
@@ -60,6 +67,14 @@ class NetworkGetalmaRepository(
         password: String
     ): GpaResponse {
         return getalmaApiService.getGpa(school, username, password)
+    }
+
+    override suspend fun getOverallInfo(
+        school: String,
+        username: String,
+        password: String
+    ): OverallInfo {
+        return getalmaApiService.getOverallInfo(school, username, password)
     }
 
     override suspend fun getPersonalInfo(

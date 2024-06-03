@@ -104,7 +104,7 @@ fun DashboardResultScreen(
                 )
 
                 GpaCard(
-                    gpa = gpa.live.toString()
+                    gpa = gpa.live
                 )
 
             }
@@ -216,7 +216,7 @@ fun SubjectCard(
     val colorStops = when (subject.gradeAsLetter) {
         "A+" -> arrayOf(
             0.0f to Color(0xFF76b852),
-            1f to Color(0xFF8DC26F),
+            1f to Color(0xFFA5D889),
         )
         "A" -> arrayOf(
             0.0f to Color(0xFF76b852).copy(alpha = 0.8f),
@@ -340,8 +340,7 @@ fun SubjectCard(
                     Text(
                         text = subject.gradeAsLetter,
                         fontSize = 14.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = Color.White
+                        fontWeight = FontWeight.Bold
                     )
                 }
                 Spacer(modifier = Modifier.height(4.dp))

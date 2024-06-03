@@ -19,6 +19,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -38,9 +39,7 @@ fun ProfileScreen(
     modifier: Modifier = Modifier
 ) {
 
-    val profileUiState = profileViewModel.profileUiState
-
-    when (profileUiState) {
+    when (val profileUiState = profileViewModel.profileUiState) {
         is ProfileUiState.Loading -> { LoadingScreen(loadingText = "Getting your info...") }
         is ProfileUiState.Success -> {
             ProfileResultScreen(
@@ -72,7 +71,7 @@ fun ProfileResultScreen(
         Text(
             text = "Welcome back,",
             style = MaterialTheme.typography.headlineSmall,
-            color = Color.White.copy(alpha = 0.5f)
+            modifier = Modifier.alpha(0.5f)
         )
         Text(
             text = "${personalInfo.name}!",
@@ -106,7 +105,7 @@ fun InfoBox(
     personalInfo: PersonalInfo
 ) {
     Column(
-        modifier = Modifier.padding(horizontal = 32.dp).verticalScroll(rememberScrollState())
+        modifier = Modifier.padding(horizontal = 16.dp).verticalScroll(rememberScrollState())
     ) {
 
         InfoSegment(
@@ -124,13 +123,13 @@ fun InfoBox(
         InfoSegment(
             icon = R.drawable.rounded_car_tag_24,
             key = "Family Number",
-            value = personalInfo.family
+            value = personalInfo.familyNumber
         )
 
         InfoSegment(
             icon = R.drawable.rounded_lock_24,
             key = "Locker Number",
-            value = personalInfo.locker
+            value = personalInfo.lockerNumber
         )
 
     }
@@ -162,7 +161,7 @@ fun InfoSegment(
             Text(
                 text = value,
                 style = MaterialTheme.typography.bodySmall,
-                color = Color.White.copy(alpha = 0.5f)
+                modifier = Modifier.alpha(0.5f)
             )
         }
     }

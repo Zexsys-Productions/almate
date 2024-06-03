@@ -23,6 +23,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontStyle
@@ -90,7 +91,7 @@ fun FGCResultScreen(
             Text(
                 text = "You need a",
                 style = MaterialTheme.typography.headlineSmall,
-                color = Color.White.copy(alpha = 0.5f)
+                modifier = Modifier.alpha(0.5f)
             )
             Text(
                 text = "${fgcViewModel.calculateNeeded(current = selectedSubject.gradeAsPercentage.toString(), goal = fgcViewModel.targetPercentage)}%",
@@ -100,8 +101,8 @@ fun FGCResultScreen(
             Text(
                 text = "to achieve your target.",
                 style = MaterialTheme.typography.headlineSmall,
-                color = Color.White.copy(alpha = 0.5f),
-                textAlign = TextAlign.Center
+                textAlign = TextAlign.Center,
+                modifier = Modifier.alpha(0.5f)
             )
 
         } else {
@@ -109,8 +110,8 @@ fun FGCResultScreen(
             Text(
                 text = "Please enter a target grade.",
                 style = MaterialTheme.typography.headlineSmall,
-                color = Color.White.copy(alpha = 0.5f),
-                textAlign = TextAlign.Center
+                textAlign = TextAlign.Center,
+                modifier = Modifier.alpha(0.5f)
             )
 
         }
@@ -177,7 +178,7 @@ fun FGCResultScreen(
                     Text(
                         text = "i.e. 100",
                         fontStyle = FontStyle.Italic,
-                        color = Color.White.copy(alpha = 0.5f)
+                        modifier = Modifier.alpha(0.5f)
                     )
                 },
                 value = fgcViewModel.targetPercentage,

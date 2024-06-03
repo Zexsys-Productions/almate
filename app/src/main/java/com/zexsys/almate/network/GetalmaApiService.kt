@@ -4,6 +4,7 @@ import com.zexsys.almate.features.auth.domain.VerifyResponse
 import com.zexsys.almate.features.dashboard.domain.GpaResponse
 import com.zexsys.almate.features.dashboard.domain.Grades
 import com.zexsys.almate.features.profile.domain.PersonalInfo
+import com.zexsys.almate.features.top.domain.OverallInfo
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -29,6 +30,13 @@ interface GetalmaApiService {
         @Query("username") username: String,
         @Query("password") password: String
     ): GpaResponse
+
+    @GET("overall-info")
+    suspend fun getOverallInfo(
+        @Query("school") school: String,
+        @Query("username") username: String,
+        @Query("password") password: String
+    ): OverallInfo
 
     @GET("personal-info")
     suspend fun getPersonalInfo(

@@ -5,5 +5,5 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class GpaResponse(
     val history: List<History>,
-    val live: Double
+    val live: String
 )

@@ -15,6 +15,7 @@ import com.zexsys.almate.features.auth.data.CredentialsPreferencesRepository
 import com.zexsys.almate.features.dashboard.domain.GpaResponse
 import com.zexsys.almate.features.dashboard.domain.Grades
 import kotlinx.coroutines.async
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
@@ -75,13 +76,15 @@ class DashboardViewModel(
 
                 dashboardUiState = if (school.isNotEmpty() && username.isNotEmpty() && password.isNotEmpty()) {
                     try {
-                        val gradesDeferred = async { getalmaRepository.getGrades(school = school, username = username, password = password) }
-                        val gpaDeferred = async { getalmaRepository.getGpa(school = school, username = username, password = password) }
+                        coroutineScope {
+                            val gradesDeferred = async { getalmaRepository.getGrades(school = school, username = username, password = password) }
+                            val gpaDeferred = async { getalmaRepository.getGpa(school = school, username = username, password = password) }
 
-                        val grades = gradesDeferred.await()
-                        val gpa = gpaDeferred.await()
+                            val grades = gradesDeferred.await()
+                            val gpa = gpaDeferred.await()
 
-                        DashboardUiState.Success(grades, gpa)
+                            DashboardUiState.Success(grades, gpa)
+                        }
                     } catch (e: IOException) {
                         DashboardUiState.Error
                     }

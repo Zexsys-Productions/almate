@@ -23,6 +23,7 @@ import com.zexsys.almate.features.auth.presentation.login.LoginScreen
 import com.zexsys.almate.features.dashboard.presentation.DashboardScreen
 import com.zexsys.almate.features.fgc.presentation.FGCScreen
 import com.zexsys.almate.features.profile.presentation.ProfileScreen
+import com.zexsys.almate.features.top.presentation.TopScreen
 import com.zexsys.almate.ui.LoadingScreen
 import com.zexsys.almate.ui.WorkInProgressScreen
 
@@ -73,7 +74,7 @@ fun MainScreen(
     ) {
         when (currentDestination) {
             AppDestinations.DASHBOARD -> { DashboardScreen() }
-            AppDestinations.TOP -> { WorkInProgressScreen() }
+            AppDestinations.TOP -> { TopScreen() }
             AppDestinations.CALCULATOR -> { FGCScreen() }
             AppDestinations.PROFILE -> { ProfileScreen() }
         }

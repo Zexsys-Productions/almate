@@ -1,7 +1,11 @@
 package com.zexsys.almate.data
 
+import com.google.firebase.Firebase
+import com.google.firebase.database.database
 import com.zexsys.almate.network.GetalmaApiService
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
+import com.zexsys.almate.features.top.data.NetworkTopRepository
+import com.zexsys.almate.features.top.data.TopRepository
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
@@ -14,6 +18,7 @@ interface AppContainer {
 
 class DefaultAppContainer : AppContainer {
 
+    // getalma api
     private val baseUrl = "https://getalma-async-v2.onrender.com"
 
     private val okHttpClient = OkHttpClient.Builder()

@@ -9,9 +9,9 @@
               <option name="connection">
                 <ConnectionSetting>
                   <option name="appId" value="com.zexsys.almate" />
-                  <option name="mobileSdkAppId" value="1:682427829704:android:3562dd1b7b7b11fa3304fd" />
-                  <option name="projectId" value="almate-getalma" />
-                  <option name="projectNumber" value="682427829704" />
+                  <option name="mobileSdkAppId" value="1:18720970713:android:2713441f4508d14c902bc8" />
+                  <option name="projectId" value="almate-app" />
+                  <option name="projectNumber" value="18720970713" />
                 </ConnectionSetting>
               </option>
               <option name="signal" value="SIGNAL_UNSPECIFIED" />
