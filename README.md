@@ -1,5 +1,5 @@
 <p align="center">
-   <a href="https://github.com/smattsil/almate/releases">
+   <a href="https://github.com/smattsil/almate/releases/download/v1.1.0/app-release.apk">
      <img src="https://github.com/smattsil/almate/blob/main/app/src/main/res/drawable/vectoralmatelexend.png" alt="Almate Logo" width=50%>
    </a>
 </p>
@@ -9,8 +9,7 @@
    </a>
 </p>
 
-***👇 You can install and test the latest Almate version from below! 👇***
-[![Almate App](https://img.shields.io/github/v/release/smattsil/almate?color=7885FF&label=Almate%20App&logo=android&style=for-the-badge)](https://github.com/smattsil/almate/releases/download/v1.1.0/app-release.apk)
+**Click on the logo to install the latest Almate version!**
 
 # **almate** 🌟
 
