@@ -2,7 +2,7 @@ name: Build, Test, and Upload APK
 
 on:
   push:
-    branches: [main]  # Adjust branch name as needed
+    branches: [main]  
 
 jobs:
   build_test_and_upload:
@@ -21,6 +21,7 @@ jobs:
       - name: Decode Google Services JSON
         run: echo ${{ secrets.ENCODED_GOOGLE_SERVICES_JSON }} | base64 -d > google-services.json
 
+      # Build Release APK with Keystore
       - name: Build Release APK
         run: |
           ./gradlew assembleRelease \
@@ -28,9 +29,9 @@ jobs:
             -Pandroid.injected.signing.store.password=${{ secrets.KEYSTORE_PASSWORD }} \
             -Pandroid.injected.signing.key.alias=${{ secrets.KEY_ALIAS }} \
             -Pandroid.injected.signing.key.password=${{ secrets.KEY_PASSWORD }}
-
+      
       - name: List APK Directory Contents
-        run: ls -la app/build/outputs/apk/release
+        run: ls -la app/release 
 
       - name: Upload to Play Console
         id: upload
@@ -38,12 +39,17 @@ jobs:
         continue-on-error: true
         with:
           serviceAccountJson: ${{ secrets.SERVICE_ACCOUNT_JSON }}
-          packageName: com.zexsys.almate 
-          releaseFile: app/release/app-release.apk
-          track: internal 
-          status: draft 
-
+          packageName: com.zexsys.almate
+          releaseFiles: app/release/app-release.apk
+          track: internal
+          status: draft
+          
       # Check upload status and report
       - name: Check Upload Status
-        if: always()
-        run: echo "Upload status: ${{ steps.upload.outputs.status }}"
+        if: always()  
+        run: |
+          if [ -z "${{ steps.upload.outputs.status }}" ]; then
+            echo "Upload failed with error: ${{ steps.upload.outputs.error }}"
+          else
+            echo "Upload status: ${{ steps.upload.outputs.status }}"
+          fi
