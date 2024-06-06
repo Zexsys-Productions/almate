@@ -2,7 +2,7 @@ name: Build, Test, and Upload APK
 
 on:
   push:
-    branches: [main]  
+    branches: [main]
 
 jobs:
   build_test_and_upload:
@@ -16,12 +16,19 @@ jobs:
           distribution: 'temurin'
 
       - name: Decode Keystore
-        run: echo ${{ secrets.ENCODED_KEYSTORE }} | base64 -d > release.keystore
+        run: |
+          tmpfile=$(mktemp)
+          echo "${{ secrets.ENCODED_KEYSTORE }}" > "$tmpfile"
+          base64 -d "$tmpfile" > release.keystore
+          rm "$tmpfile"
 
       - name: Decode Google Services JSON
-        run: echo ${{ secrets.ENCODED_GOOGLE_SERVICES_JSON }} | base64 -d > google-services.json
+        run: |
+          tmpfile=$(mktemp)
+          echo "${{ secrets.ENCODED_GOOGLE_SERVICES_JSON }}" > "$tmpfile"
+          base64 -d "$tmpfile" > google-services.json
+          rm "$tmpfile"
 
-      # Build Release APK with Keystore
       - name: Build Release APK
         run: |
           ./gradlew assembleRelease \
@@ -29,7 +36,7 @@ jobs:
             -Pandroid.injected.signing.store.password=${{ secrets.KEYSTORE_PASSWORD }} \
             -Pandroid.injected.signing.key.alias=${{ secrets.KEY_ALIAS }} \
             -Pandroid.injected.signing.key.password=${{ secrets.KEY_PASSWORD }}
-      
+        
       - name: List APK Directory Contents
         run: ls -la app/release 
 
@@ -43,10 +50,9 @@ jobs:
           releaseFiles: app/release/app-release.apk
           track: internal
           status: draft
-          
-      # Check upload status and report
+
       - name: Check Upload Status
-        if: always()  
+        if: always()
         run: |
           if [ -z "${{ steps.upload.outputs.status }}" ]; then
             echo "Upload failed with error: ${{ steps.upload.outputs.error }}"
