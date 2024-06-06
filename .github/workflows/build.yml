@@ -19,6 +19,9 @@ jobs:
           cache: gradle
       - run: chmod +x gradlew
 
+      - name: Print decoded keystore
+        run: echo "${{ secrets.ENCODED_KEYSTORE }}" | base64 -d > signingKey.jks && cat signingKey.jks
+
       - name: Bundle 'release' with Gradle
         run: ./gradlew bundleRelease
       
