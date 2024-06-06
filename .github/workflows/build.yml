@@ -7,6 +7,8 @@ on:
 jobs:
   build_test_and_upload:
     runs-on: ubuntu-latest
+    env:
+      ACTIONS_STEP_DEBUG: true
     steps:
       - uses: actions/checkout@v3
       - name: Set up JDK 11
@@ -18,15 +20,15 @@ jobs:
       - name: Decode Keystore
         run: |
           tmpfile=$(mktemp)
-          echo "${{ secrets.ENCODED_KEYSTORE }}" > "$tmpfile"
-          base64 -d "$tmpfile" > release.keystore
+          echo "${{ secrets.ENCODED_KEYSTORE }}" | tr -d '\r' > "$tmpfile" 
+          base64 -di "$tmpfile" > release.keystore 
           rm "$tmpfile"
 
       - name: Decode Google Services JSON
         run: |
           tmpfile=$(mktemp)
-          echo "${{ secrets.ENCODED_GOOGLE_SERVICES_JSON }}" > "$tmpfile"
-          base64 -d "$tmpfile" > google-services.json
+          echo "${{ secrets.ENCODED_GOOGLE_SERVICES_JSON }}" | tr -d '\r' > "$tmpfile"
+          base64 -di "$tmpfile" > google-services.json
           rm "$tmpfile"
 
       - name: Build Release APK
