@@ -37,10 +37,21 @@ jobs:
           keyStorePassword: ${{ secrets.KEYSTORE_PASSWORD }}
           keyPassword: ${{ secrets.KEY_PASSWORD }}
 
+      - name: Get Current Version Code
+        id: get_version_code
+        run: |
+          response=$(curl -s "https://almate-ci.onrender.com/version_code")
+          echo "Current version code response: $response"
+          current_version_code=$(echo $response | jq -r '.current_version_code')
+          new_version_code=$((current_version_code + 1))
+          echo "New version code: $new_version_code"
+          echo "new_version_code=$new_version_code" >> $GITHUB_ENV
+
       - run: echo "Build status report=${{ job.status }}."
 
       - name: Upload AAB to FastAPI
         run: |
           curl -X POST "https://almate-ci.onrender.com/upload" \
           -H "Content-Type: multipart/form-data" \
-          -F "file=@app/build/outputs/bundle/release/app-release.aab"
+          -F "file=@app/build/outputs/bundle/release/app-release.aab" \
+          -F "version_code=${{ env.new_version_code }}"
