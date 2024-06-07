@@ -7,6 +7,9 @@
    <a href="https://almate.betteruptime.com/">
      <img src="https://uptime.betterstack.com/status-badges/v1/monitor/1cxzg.svg" alt="Better Stack Badge">
    </a>
+   <a href="https://github.com/Zexsys-Productions/almate/actions/workflows/build.yml">
+     <img src="https://github.com/Zexsys-Productions/almate/actions/workflows/build.yml/badge.svg?branch=main" alt="CI Badge">
+   </a>
 </p>
 <p align="center">
 Click on the logo to install the latest Almate version!
