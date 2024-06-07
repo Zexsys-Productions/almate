@@ -1,5 +1,6 @@
 package com.zexsys.almate.features.top.presentation
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -12,24 +13,34 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SegmentedButton
 import androidx.compose.material3.SegmentedButtonDefaults
 import androidx.compose.material3.SingleChoiceSegmentedButtonRow
 import androidx.compose.material3.Text
+import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -37,6 +48,7 @@ import androidx.datastore.preferences.protobuf.Empty
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.firebase.Firebase
 import com.google.firebase.database.database
+import com.zexsys.almate.R
 import com.zexsys.almate.features.top.domain.OverallInfo
 import com.zexsys.almate.ui.ErrorScreen
 import com.zexsys.almate.ui.LoadingScreen
@@ -78,8 +90,8 @@ fun TopScreenResult(
         ) {
 
             Text(
-                text = "Leaderboard",
-                style = MaterialTheme.typography.headlineSmall,
+                text = "Top",
+                style = MaterialTheme.typography.titleLarge,
                 fontWeight = FontWeight.Bold
             )
 
@@ -154,72 +166,98 @@ fun LeaderboardSection(
 }
 
 @Composable
-fun Podium(
-    modifier: Modifier = Modifier
-) {
-    Row(
-        modifier = Modifier.fillMaxSize()
-    ) {
-        Column(
-            modifier = Modifier.weight(1f)
-        ) {
-            Spacer(modifier = Modifier.height(288.dp))
-            PodiumUser(
-                rank = "2",
-                rankedRating = "938",
-                username = "clayton.2025",
-                modifier = Modifier.weight(1f)
-            )
-        }
-        Column(
-            modifier = Modifier.weight(1f)
-        ) {
-            Spacer(modifier = Modifier.height(240.dp))
-            PodiumUser(
-                rank = "1",
-                rankedRating = "938",
-                username = "ethan.2025",
-                modifier = Modifier.weight(1f)
-            )
-        }
-        Column(
-            modifier = Modifier.weight(1f)
-        ) {
-            Spacer(modifier = Modifier.height(336.dp))
-            PodiumUser(
-                rank = "3",
-                rankedRating = "938",
-                username = "steven.2025",
-                modifier = Modifier.weight(1f)
-            )
-        }
-    }
-}
-
-@Composable
-fun PodiumUser(
-    rank: String,
-    rankedRating: String,
-    username: String,
-    modifier: Modifier = Modifier
-) {
+fun TopCard() {
     Box(
-        modifier = modifier
-            .fillMaxSize()
-            .clip(RoundedCornerShape(12.dp, 12.dp))
-            .background(Color.White)
+        modifier = Modifier
+            .clip(RoundedCornerShape(12.dp))
+            .background(MaterialTheme.colorScheme.surface)
+            .fillMaxWidth()
     ) {
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier.fillMaxSize()
+        Row(
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 12.dp, vertical = 8.dp)
         ) {
-            Text("hi")
+
+            Row(
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+
+                Text(
+                    text = "4"
+                )
+
+                Spacer(modifier = Modifier.width(16.dp))
+
+                Image(
+                    painter = painterResource(id = R.drawable._a40e577c1a5af89edfd5c89d0279f11),
+                    contentDescription = null,
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier
+                        .size(48.dp)
+                        .clip(CircleShape)
+                )
+
+                Spacer(modifier = Modifier.width(8.dp))
+
+                Column(
+                    horizontalAlignment = Alignment.Start
+                ) {
+                    Text(
+                        text = "skyzeki",
+                        style = MaterialTheme.typography.titleLarge,
+                        fontWeight = FontWeight.Bold
+                    )
+                    Text(
+                        text = "steven.2025",
+                        style = MaterialTheme.typography.labelSmall,
+                        modifier = Modifier.alpha(0.5f)
+                    )
+                }
+
+            }
+
+            Column(
+                horizontalAlignment = Alignment.End
+            ) {
+                Text(
+                    text = "998 RR",
+                    style = MaterialTheme.typography.titleLarge
+                )
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(4.dp)
+                ) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Text(
+                            text = "7/11",
+                            style = MaterialTheme.typography.labelSmall
+                        )
+                        Icon(
+                            painter = painterResource(R.drawable.filled_kid_star_24),
+                            contentDescription = null,
+                            modifier = Modifier.size(12.dp)
+                            
+                        )
+                    }
+                    VerticalDivider(modifier = Modifier.height(8.dp))
+                    Text(
+                        text = "4.0 GPA",
+                        style = MaterialTheme.typography.labelSmall
+                    )
+                }
+            }
+
         }
     }
 }
 
-@Preview
+@Preview()
 @Composable
 fun PodiumPreview() {
-    Podium()
+    TopCard()
 }

@@ -38,7 +38,7 @@ class TopViewModel() : ViewModel() {
 
     var listOfUsers: List<OverallInfo>? by mutableStateOf(null)
 
-    val options = listOf("Global", "Custom")
+    val options = listOf("Everyone", "Custom")
     var selectedIndex = mutableIntStateOf(0)
 
     // firebase realtime database

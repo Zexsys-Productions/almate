@@ -4,6 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
@@ -26,6 +27,7 @@ import com.zexsys.almate.ui.theme.AlmateTheme
 @Composable
 fun ErrorScreen(
     onRetry: () -> Unit,
+    additionalContent: @Composable ColumnScope.() -> Unit,
     modifier: Modifier = Modifier
 ) {
     Box {
@@ -53,6 +55,11 @@ fun ErrorScreen(
                 )
             }
 
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                content = additionalContent
+            )
+
             Spacer(modifier = Modifier.height(48.dp))
 
 
@@ -75,6 +82,6 @@ fun ErrorScreen(
 @Composable
 fun ErrorPreview() {
     AlmateTheme(darkTheme = true) {
-        ErrorScreen(onRetry = {})
+        ErrorScreen(onRetry = {}, {})
     }
 }

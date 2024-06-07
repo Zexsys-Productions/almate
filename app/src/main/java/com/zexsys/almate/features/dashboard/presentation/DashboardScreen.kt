@@ -22,6 +22,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
@@ -68,7 +69,8 @@ fun DashboardScreen(
             modifier = Modifier.safeDrawingPadding()
         )
         is DashboardUiState.Error -> ErrorScreen(
-            onRetry = { dashboardViewModel.getDashboardInfo() }
+            onRetry = { dashboardViewModel.getDashboardInfo() },
+            additionalContent = {}
         )
     }
 
@@ -100,7 +102,7 @@ fun DashboardResultScreen(
 
                 Text(
                     text = "GPA Analytics",
-                    style = MaterialTheme.typography.headlineSmall,
+                    style = MaterialTheme.typography.titleLarge,
                     fontWeight = FontWeight.Bold
                 )
 
@@ -112,44 +114,46 @@ fun DashboardResultScreen(
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            Column {
-
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    Text(
-                        text = "Grades",
-                        style = MaterialTheme.typography.headlineSmall,
-                        fontWeight = FontWeight.Bold
-                    )
-                    TextButton(
-                        onClick = { dashboardViewModel.switchSort() }
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text(
+                    text = "Grades",
+                    style = MaterialTheme.typography.titleLarge,
+                    fontWeight = FontWeight.Bold
+                )
+//                Text(
+//                    onClick = { dashboardViewModel.switchSort() }
+//                ) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier.clickable { dashboardViewModel.switchSort() }
                     ) {
-                        Row(
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            Text(
-                                text = if (dashboardViewModel.sortedAlphabetically) "Alphabetical" else "Performance",
-                                style = MaterialTheme.typography.headlineSmall,
-                                fontWeight = FontWeight.Bold,
-                                color = MaterialTheme.colorScheme.onSurface
-                            )
-                            Spacer(modifier = Modifier.width(4.dp))
-                            Image(painter = painterResource(id = R.drawable.rounded_filter_24_filled), contentDescription = null, colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onSurface))
-                        }
+                        Text(
+                            text = if (dashboardViewModel.sortedAlphabetically) "Alphabetical" else "Performance",
+                            style = MaterialTheme.typography.titleLarge,
+                            fontWeight = FontWeight.Bold,
+                            color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.75f)
+                        )
+                        Spacer(modifier = Modifier.width(4.dp))
+                        Image(
+                            painter = painterResource(id = R.drawable.rounded_filter_24_filled),
+                            contentDescription = null,
+                            colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onSurface),
+                            modifier = Modifier.size(16.dp)
+                        )
                     }
-                }
+//                }
+            }
 
-                Column(
-                    verticalArrangement = Arrangement.spacedBy(8.dp)
-                ) {
-                    classes.forEach { grade ->
-                        SubjectCard(grade)
-                    }
+            Column(
+                verticalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                classes.forEach { grade ->
+                    SubjectCard(grade)
                 }
-
             }
 
         }
@@ -194,7 +198,7 @@ fun GpaCard(
             .fillMaxWidth()
     ) {
         Column(
-            modifier = Modifier.padding(12.dp)
+            modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp)
         ) {
             Card(
                 colors = CardDefaults.cardColors(
@@ -213,12 +217,12 @@ fun GpaCard(
                 Text(
                     text = "Current: ",
                     fontWeight = FontWeight.Bold,
-                    style = MaterialTheme.typography.titleLarge
+                    style = MaterialTheme.typography.titleMedium
                 )
                 Text(
                     text = "${gpa} GPA",
                     fontWeight = FontWeight.Bold,
-                    style = MaterialTheme.typography.titleLarge.copy(
+                    style = MaterialTheme.typography.titleMedium.copy(
                         brush = Brush.horizontalGradient(colorStops = colorStops)
                     )
                 )
@@ -236,61 +240,25 @@ fun SubjectCard(
 
     val uriHandler = LocalUriHandler.current
 
-    val colorStops = when (subject.gradeAsLetter) {
-        "A+" -> arrayOf(
-            0.0f to Color(0xFF76b852),
-            1f to Color(0xFFA5D889),
-        )
-        "A" -> arrayOf(
-            0.0f to Color(0xFF76b852).copy(alpha = 0.8f),
-            1f to Color(0xFF8DC26F).copy(alpha = 0.8f),
-        )
-        "A-" -> arrayOf(
-            0.0f to Color(0xFF76b852).copy(alpha = 0.6f),
-            1f to Color(0xFF8DC26F).copy(alpha = 0.6f),
-        )
-        "B+" -> arrayOf(
-            0.0f to Color(0xFF799F0C).copy(alpha = 0.8f),
-            1f to Color(0xFFFFE000).copy(alpha = 0.8f),
-        )
-        "B" -> arrayOf(
-            0.0f to Color(0xFF799F0C).copy(alpha = 0.7f),
-            1f to Color(0xFFFFE000).copy(alpha = 0.7f),
-        )
-        "B-" -> arrayOf(
-            0.0f to Color(0xFF799F0C).copy(alpha = 0.6f),
-            1f to Color(0xFFFFE000).copy(alpha = 0.6f),
-        )
-        "C+" -> arrayOf(
-            0.0f to Color(0xFFf46b45),
-            1f to Color(0xFFeea849),
-        )
-        "C" -> arrayOf(
-            0.0f to Color(0xFFf46b45).copy(alpha = 0.8f),
-            1f to Color(0xFFeea849).copy(alpha = 0.8f),
-        )
-        "D+" -> arrayOf(
-            0.0f to Color(0xFFEB5757),
-            1f to Color.Black,
-        )
-        "D" -> arrayOf(
-            0.0f to Color(0xFFEB5757).copy(alpha = 0.8f),
-            1f to Color.Black.copy(alpha = 0.8f),
-        )
-        "E" -> arrayOf(
-            0.0f to Color.Black,
-            1f to Color(0xFF434343),
-        )
-        else -> arrayOf(
-            0.7f to MaterialTheme.colorScheme.surfaceContainerHigh,
-            1f to Color.Black.copy(alpha = 0.15f)
-        )
+    val backgroundColor = when (subject.gradeAsLetter) {
+        "A+" -> Color(0xFF76b852)
+        "A" -> Color(0xFF76b852).copy(alpha = 0.75f)
+        "A-" -> Color(0xFF76b852).copy(alpha = 0.5f)
+        "B+" -> Color(0xFFB8B652)
+        "B" -> Color(0xFFB8B652).copy(alpha = 0.75f)
+        "B-" -> Color(0xFFB8B652).copy(alpha = 0.5f)
+        "C+" -> Color(0xFFB87E52)
+        "C" -> Color(0xFFB87E52).copy(alpha = 0.75f)
+        "D+" -> Color(0xFFB85252)
+        "D" -> Color(0xFFB85252).copy(alpha = 0.75f)
+        "E" -> Color(0xFF7C3F00)
+        else -> MaterialTheme.colorScheme.surface
     }
 
     Box(
         modifier = Modifier
             .clip(RoundedCornerShape(12.dp))
-            .background(Brush.linearGradient(colorStops = colorStops))
+            .background(backgroundColor)
             .fillMaxWidth()
             .clickable { uriHandler.openUri(subject.url) }
     ) {

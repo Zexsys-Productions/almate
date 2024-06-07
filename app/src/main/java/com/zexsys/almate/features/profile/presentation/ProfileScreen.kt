@@ -2,6 +2,7 @@ package com.zexsys.almate.features.profile.presentation
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -15,6 +16,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -47,9 +49,23 @@ fun ProfileScreen(
                 personalInfo = profileUiState.personalInfo
             )
         }
-        is ProfileUiState.Error -> { ErrorScreen(
-            onRetry = { profileViewModel.getStudentInfo() }
-        ) }
+        is ProfileUiState.Error -> {
+            ErrorScreen(
+                onRetry = { profileViewModel.getStudentInfo() },
+                additionalContent = {
+                    Button(
+                        onClick = { profileViewModel.logOut() },
+                        colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.error)
+                    ) {
+                        Text(
+                            text = "Log Out",
+                            color = MaterialTheme.colorScheme.onError,
+                            fontWeight = FontWeight.Bold
+                        )
+                    }
+                }
+            )
+        }
     }
 
 }
@@ -61,41 +77,44 @@ fun ProfileResultScreen(
     modifier: Modifier = Modifier
 ) {
 
-    Column(
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = modifier
-            .fillMaxSize()
-    ) {
-        Text(
-            text = "Welcome back,",
-            style = MaterialTheme.typography.headlineSmall,
-            modifier = Modifier.alpha(0.5f)
-        )
-        Text(
-            text = "${personalInfo.name}!",
-            style = MaterialTheme.typography.headlineLarge,
-            fontWeight = FontWeight.Bold,
-            textAlign = TextAlign.Center,
-            modifier = Modifier.padding(horizontal = 16.dp)
-
-        )
-
-        Spacer(modifier = Modifier.height(48.dp))
-
-        InfoBox(personalInfo = personalInfo)
-
-        Button(
-            onClick = { profileViewModel.logOut() },
-            colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.error)
+    Scaffold {
+        Column(
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = modifier
+                .padding(it)
+                .fillMaxSize()
         ) {
             Text(
-                text = "Log Out",
-                color = MaterialTheme.colorScheme.onError,
-                fontWeight = FontWeight.Bold
+                text = "Welcome back,",
+                style = MaterialTheme.typography.headlineSmall,
+                modifier = Modifier.alpha(0.5f)
             )
-        }
+            Text(
+                text = "${personalInfo.name}!",
+                style = MaterialTheme.typography.headlineLarge,
+                fontWeight = FontWeight.Bold,
+                textAlign = TextAlign.Center,
+                modifier = Modifier.padding(horizontal = 16.dp)
 
+            )
+
+            Spacer(modifier = Modifier.height(48.dp))
+
+            InfoBox(personalInfo = personalInfo)
+
+            Button(
+                onClick = { profileViewModel.logOut() },
+                colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.error)
+            ) {
+                Text(
+                    text = "Log Out",
+                    color = MaterialTheme.colorScheme.onError,
+                    fontWeight = FontWeight.Bold
+                )
+            }
+
+        }
     }
 }
 
@@ -104,32 +123,42 @@ fun InfoBox(
     personalInfo: PersonalInfo
 ) {
     Column(
-        modifier = Modifier.padding(horizontal = 16.dp).verticalScroll(rememberScrollState())
+        modifier = Modifier
+            .padding(horizontal = 16.dp)
+            .verticalScroll(rememberScrollState())
     ) {
 
-        InfoSegment(
-            icon = R.drawable.rounded_alternate_email_24,
-            key = "Email",
-            value = personalInfo.email
-        )
+        if (personalInfo.email.isNotBlank()) {
+            InfoSegment(
+                icon = R.drawable.rounded_alternate_email_24,
+                key = "Email",
+                value = personalInfo.email
+            )
+        }
 
-        InfoSegment(
-            icon = R.drawable.rounded_location_on_24,
-            key = "Home",
-            value = personalInfo.address
-        )
+        if (personalInfo.address.isNotBlank()) {
+            InfoSegment(
+                icon = R.drawable.rounded_location_on_24,
+                key = "Home",
+                value = personalInfo.address
+            )
+        }
 
-        InfoSegment(
-            icon = R.drawable.rounded_car_tag_24,
-            key = "Family Number",
-            value = personalInfo.familyNumber
-        )
+        if (personalInfo.familyNumber.isNotBlank()) {
+            InfoSegment(
+                icon = R.drawable.rounded_car_tag_24,
+                key = "Family Number",
+                value = personalInfo.familyNumber
+            )
+        }
 
-        InfoSegment(
-            icon = R.drawable.rounded_lock_24,
-            key = "Locker Number",
-            value = personalInfo.lockerNumber
-        )
+        if (personalInfo.lockerNumber.isNotBlank()) {
+            InfoSegment(
+                icon = R.drawable.rounded_lock_24,
+                key = "Locker Number",
+                value = personalInfo.lockerNumber
+            )
+        }
 
     }
 }

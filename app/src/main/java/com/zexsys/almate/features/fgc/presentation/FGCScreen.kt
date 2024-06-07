@@ -59,7 +59,8 @@ fun FGCScreen(
             )
         }
         is DashboardUiState.Error -> ErrorScreen(
-            onRetry = { dashboardViewModel.getDashboardInfo() }
+            onRetry = { dashboardViewModel.getDashboardInfo() },
+            additionalContent = {}
         )
     }
 }
