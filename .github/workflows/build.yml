@@ -51,7 +51,16 @@ jobs:
 
       - name: Upload AAB to FastAPI
         run: |
-          curl -X POST "https://almate-ci.onrender.com/upload" \
+          response=$(curl -s -o response_body.txt -w "%{http_code}" -X POST "https://almate-ci.onrender.com/upload" \
           -H "Content-Type: multipart/form-data" \
           -F "file=@app/build/outputs/bundle/release/app-release.aab" \
-          -F "version_code=${{ env.new_version_code }}"
+          -F "version_code=${{ env.new_version_code }}")
+          echo "Upload response code: $response"
+          if [ "$response" -ne 200 ]; then
+            echo "Upload failed with response code $response"
+            echo "Response body:"
+            cat response_body.txt
+            exit 1
+          fi
+          echo "Upload succeeded"
+          cat response_body.txt
