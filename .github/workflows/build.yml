@@ -1,0 +1,57 @@
+name: Build, Test, and Upload AAB
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build_test_and_upload:
+    runs-on: ubuntu-latest
+    env:
+      ACTIONS_STEP_DEBUG: true
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: 17
+          distribution: 'temurin'
+          cache: gradle
+
+      - run: chmod +x gradlew
+
+      - name: Test Decoding
+        run: echo "${{ secrets.ENCODED_KEYSTORE }}" | base64 -d > signingKey.jks && file signingKey.jks
+
+      - name: Bundle 'release' with Gradle
+        run: ./gradlew bundleRelease
+
+      - name: Sign AAB
+        id: sign_aab
+        uses: r0adkll/sign-android-release@v1
+        with:
+          releaseDirectory: app/build/outputs/bundle/release
+          signingKeyBase64: ${{ secrets.ENCODED_KEYSTORE }}
+          alias: ${{ secrets.KEY_ALIAS }}
+          keyStorePassword: ${{ secrets.KEYSTORE_PASSWORD }}
+          keyPassword: ${{ secrets.KEY_PASSWORD }}
+
+      - name: Get Current Version Code
+        id: get_version_code
+        run: |
+          response=$(curl -s "https://almate-ci.onrender.com/version_code")
+          echo "Current version code response: $response"
+          current_version_code=$(echo $response | jq -r '.current_version_code')
+          new_version_code=$((current_version_code + 1))
+          echo "New version code: $new_version_code"
+          echo "new_version_code=$new_version_code" >> $GITHUB_ENV
+
+      - run: echo "Build status report=${{ job.status }}."
+
+      - name: Upload AAB to FastAPI
+        run: |
+          curl -X POST "https://almate-ci.onrender.com/upload" \
+          -H "Content-Type: multipart/form-data" \
+          -F "file=@app/build/outputs/bundle/release/app-release.aab" \
+          -F "version_code=${{ env.new_version_code }}"
