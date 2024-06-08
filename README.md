@@ -18,6 +18,7 @@ Click on the logo to install the latest Almate version!
 # **almate** 🌟
 
 almate is...
+- currently not working, school's over for CBCS!
 - an [Alma](https://getalma.com/) client.
 - an UNOFFICIAL client for Alma. It is not affiliated with or endorsed by Alma in any way.
 - your new favourite way to use Alma on your phone!
